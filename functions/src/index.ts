@@ -6,11 +6,10 @@ import * as admin  from 'firebase-admin';
 admin.initializeApp();
 exports.createProfile = functions.auth.user()
     .onCreate( (userRecord, context) => {
-        /*return admin.database().ref(`/userProfile/${userRecord.uid}`).set({
-            email: userRecord.email
-        });*/
+        const date = new Date();
         return admin.firestore().collection('userProfile').doc(userRecord.uid).set({
             email: userRecord.email,
-            authorityLevel: 0
+            authorityLevel: 0,
+            created: date
         });
     });
